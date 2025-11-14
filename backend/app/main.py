@@ -11,7 +11,7 @@ from rq import Queue
 from app.config import get_settings
 from app.db import create_tables, init_fts_table, get_db
 from app.models import ScanJob
-from app.api.v1 import settings, scan, search
+from app.api.v1 import settings, scan, search, upload
 
 # Configure logging
 logging.basicConfig(
@@ -127,6 +127,7 @@ def create_app() -> FastAPI:
     app.include_router(settings.router)
     app.include_router(scan.router)
     app.include_router(search.router)
+    app.include_router(upload.router)
     
     # Health check endpoint
     @app.get("/health")

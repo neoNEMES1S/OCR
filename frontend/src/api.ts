@@ -143,3 +143,44 @@ export async function searchSemantic(
     body: JSON.stringify(request),
   });
 }
+
+// Upload API
+
+export interface UploadResponse {
+  success: boolean;
+  filename: string;
+  document_id: number;
+  message: string;
+  job_id: string;
+}
+
+export interface DocumentStatus {
+  document_id: number;
+  filename: string;
+  status: string;
+  page_count: number | null;
+  error_message: string | null;
+  ingested_at: string | null;
+}
+
+export async function uploadPDF(file: File): Promise<UploadResponse> {
+  const formData = new FormData();
+  formData.append('file', file);
+  
+  const response = await fetch(`${API_BASE_URL}/upload`, {
+    method: 'POST',
+    body: formData,
+    // Don't set Content-Type - browser will set it with boundary
+  });
+  
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({ detail: response.statusText }));
+    throw new Error(error.detail || `HTTP ${response.status}`);
+  }
+  
+  return response.json();
+}
+
+export async function getDocumentStatus(documentId: number): Promise<DocumentStatus> {
+  return fetchAPI<DocumentStatus>(`/upload/status/${documentId}`);
+}

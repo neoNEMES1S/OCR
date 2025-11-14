@@ -9,7 +9,12 @@ echo "========================================================"
 echo ""
 echo "This simulates how it will work on Vercel + Supabase:"
 echo "  - Backend: http://localhost:8000 (API)"
-echo "  - Frontend: http://localhost:3000 (React app)"
+echo "  - Frontend: http://localhost:3000 (React app with Tailwind CSS)"
+echo ""
+echo "✨ New Features:"
+echo "  - Beautiful animated landing page (BackgroundPaths)"
+echo "  - Tailwind CSS styling"
+echo "  - shadcn/ui components"
 echo ""
 
 # Check if we're in project root
@@ -80,14 +85,21 @@ echo ""
 echo "📦 Setting up frontend..."
 cd ../frontend
 
-if [ ! -d "node_modules" ]; then
-    echo "Installing npm dependencies..."
+# Check if Tailwind CSS dependencies are installed
+if [ ! -d "node_modules" ] || [ ! -d "node_modules/tailwindcss" ]; then
+    echo "Installing npm dependencies (including Tailwind CSS & shadcn/ui)..."
     npm install
 else
-    echo "Dependencies already installed"
+    # Check if package.json has been updated recently
+    if [ "package.json" -nt "node_modules/.package-lock.json" ] 2>/dev/null || [ ! -f "node_modules/.package-lock.json" ]; then
+        echo "New dependencies detected, updating..."
+        npm install
+    else
+        echo "Dependencies already installed"
+    fi
 fi
 
-echo "✅ Frontend ready"
+echo "✅ Frontend ready with Tailwind CSS & shadcn/ui"
 echo ""
 
 # Instructions
@@ -163,6 +175,11 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
     echo "  - API Docs:     http://localhost:8000/docs"
     echo "  - RQ Worker:    Running (PID: $WORKER_PID)"
     echo "  - Frontend:     http://localhost:3000 (PID: $FRONTEND_PID)"
+    echo ""
+    echo "🎨 Pages Available:"
+    echo "  - Home (Landing):  http://localhost:3000/"
+    echo "  - Search:          http://localhost:3000/search"
+    echo "  - Settings:        http://localhost:3000/settings"
     echo ""
     echo "📝 Logs:"
     echo "  - Backend:  tail -f logs/backend.log"

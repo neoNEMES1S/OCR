@@ -50,7 +50,15 @@ def get_settings() -> Settings:
                 data = json.load(f)
                 for key, value in data.items():
                     if hasattr(_settings, key):
+                        # Expand paths for FOLDER_PATH
+                        if key == 'FOLDER_PATH' and isinstance(value, str):
+                            value = os.path.expanduser(os.path.expandvars(value))
                         setattr(_settings, key, value)
+        
+        # Expand FOLDER_PATH from env as well
+        if hasattr(_settings, 'FOLDER_PATH'):
+            _settings.FOLDER_PATH = os.path.expanduser(os.path.expandvars(_settings.FOLDER_PATH))
+    
     return _settings
 
 
@@ -70,8 +78,10 @@ def save_settings(folder_path: Optional[str] = None,
     
     # Update with new values
     if folder_path is not None:
-        settings.FOLDER_PATH = folder_path
-        data['FOLDER_PATH'] = folder_path
+        # Expand ~ and environment variables in path
+        expanded_path = os.path.expanduser(os.path.expandvars(folder_path))
+        settings.FOLDER_PATH = expanded_path
+        data['FOLDER_PATH'] = expanded_path
     
     if include_subfolders is not None:
         settings.INCLUDE_SUBFOLDERS = include_subfolders

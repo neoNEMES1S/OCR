@@ -45,9 +45,18 @@ class OCRLauncher:
             self.root,
             text="🔍 OCR PDF Application",
             font=("Arial", 20, "bold"),
-            pady=10
+            pady=5
         )
         title.pack()
+        
+        subtitle = tk.Label(
+            self.root,
+            text="with Tailwind CSS & shadcn/ui",
+            font=("Arial", 10),
+            fg="gray",
+            pady=5
+        )
+        subtitle.pack()
         
         # Status
         self.status_label = tk.Label(
@@ -135,7 +144,7 @@ class OCRLauncher:
         # Info
         info = tk.Label(
             self.root,
-            text="Frontend: http://localhost:3000 | API: http://localhost:8000",
+            text="Frontend: http://localhost:3000 (Home, Search, Settings) | API: http://localhost:8000",
             font=("Arial", 9),
             fg="gray"
         )
@@ -250,13 +259,17 @@ class OCRLauncher:
         
         # Check frontend node_modules
         node_modules = FRONTEND_DIR / "node_modules"
-        if not node_modules.exists():
-            self.log("Installing frontend dependencies...", "INFO")
+        tailwind_installed = (node_modules / "tailwindcss").exists() if node_modules.exists() else False
+        
+        if not node_modules.exists() or not tailwind_installed:
+            self.log("Installing frontend dependencies (Tailwind CSS + shadcn/ui)...", "INFO")
             subprocess.run(
                 ["npm", "install"],
                 cwd=str(FRONTEND_DIR),
                 stdout=subprocess.DEVNULL
             )
+        else:
+            self.log("Frontend dependencies already installed", "INFO")
             
     def start_backend(self):
         """Start backend API server."""

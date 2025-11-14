@@ -23,17 +23,47 @@ python3 launcher.py
 
 See **[START_HERE.md](./START_HERE.md)** for detailed instructions.
 
+## ✨ Key Features
+
+### 📤 Direct File Upload (NEW!)
+- **Drag & drop** PDF files directly into the web UI
+- Upload multiple files simultaneously
+- Real-time processing status with progress tracking
+- Instant search availability once processed
+- Perfect for testing or adding individual documents
+- Automatic duplicate detection via checksums
+
+### 📁 Folder Scanning
+- Configure a folder path for batch processing
+- Recursive subfolder scanning support
+- Manual refresh/rescan with **cancel button**
+- Persistent scan status across page refreshes
+- Idempotent scanning (skip unchanged files)
+
+### 🔍 Dual Search
+- **Keyword Search**: Lightning-fast full-text search (SQLite FTS5)
+- **Semantic Search**: AI-powered similarity search (vector embeddings)
+- Search by filename or document content
+- Results grouped by document with page numbers
+
+### ⚙️ Background Processing
+- Asynchronous job queue with Redis & RQ
+- Non-blocking PDF processing
+- Scalable worker architecture
+- Status tracking and error handling
+
 ## Overview
 
 This MVP provides:
 
-1. **Auto-ingestion**: Automatically scans and processes PDFs from a configured folder on startup
-2. **Manual refresh**: Trigger rescans via API endpoint
-3. **Settings management**: Configure auto-folder path and scan options
-4. **Full-text search**: Keyword search using SQLite FTS5
-5. **Semantic search**: Vector similarity search using embeddings
-6. **Background processing**: RQ worker queue with Redis for async ingestion
-7. **Web UI**: React frontend for search and settings management
+1. **Direct upload**: Drag & drop PDFs for immediate processing
+2. **Auto-ingestion**: Automatically scans and processes PDFs from a configured folder
+3. **Manual refresh**: Trigger rescans via API endpoint with cancel option
+4. **Settings management**: Configure folder path and scan options
+5. **Full-text search**: Keyword search using SQLite FTS5
+6. **Semantic search**: Vector similarity search using embeddings
+7. **Background processing**: RQ worker queue with Redis for async ingestion
+8. **Web UI**: Modern React frontend with Tailwind CSS & shadcn/ui
 
 ## Architecture
 
