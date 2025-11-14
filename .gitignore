@@ -1,0 +1,58 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+.venv
+*.db
+*.db-journal
+.pytest_cache/
+.coverage
+htmlcov/
+dist/
+build/
+*.egg-info/
+
+# Node.js / Frontend
+node_modules/
+dist/
+dist-ssr/
+*.local
+.cache/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Project specific
+backend/storage/
+backend/logs/
+backend/ocr_dev.db
+backend/fts_index.db
+backend/settings.json
+frontend/dist/
+logs/
+*.log
+pids.txt
+
+# Environment
+.env
+.env.local
+.env.production
+
+# Redis
+dump.rdb
+
+# Temporary
+*.tmp
+temp/
+tmp/
+

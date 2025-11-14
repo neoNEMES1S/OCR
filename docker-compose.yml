@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    command: redis-server --appendonly yes
+
+  # Backend API service would go here
+  # Uncomment and configure after creating Dockerfile in backend/
+  # backend:
+  #   build: ./backend
+  #   ports:
+  #     - "8000:8000"
+  #   environment:
+  #     - REDIS_URL=redis://redis:6379/0
+  #     - DATABASE_URL=sqlite:///./data/ocr_dev.db
+  #   volumes:
+  #     - ./pdfs:/pdfs
+  #     - ./backend/storage:/app/storage
+  #     - ./backend/data:/app/data
+  #   depends_on:
+  #     - redis
+
+  # RQ Worker service
+  # worker:
+  #   build: ./backend
+  #   command: rq worker app.workers
+  #   environment:
+  #     - REDIS_URL=redis://redis:6379/0
+  #     - DATABASE_URL=sqlite:///./data/ocr_dev.db
+  #   volumes:
+  #     - ./pdfs:/pdfs
+  #     - ./backend/storage:/app/storage
+  #     - ./backend/data:/app/data
+  #   depends_on:
+  #     - redis
+
+volumes:
+  redis-data:
+
